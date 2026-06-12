@@ -150,6 +150,16 @@ class LibraryItemComponent extends React.PureComponent {
                     </div>
                 )}
 
+                {this.props.loaded ? (
+                    <div className={styles.loadedBadge}>
+                        <FormattedMessage
+                            defaultMessage="Loaded"
+                            description="Badge text for an extension that is already loaded"
+                            id="tw.extensionLibrary.loaded"
+                        />
+                    </div>
+                ) : null}
+
                 {this.props.bluetoothRequired || this.props.internetConnectionRequired || this.props.collaborator ? (
                     <div className={styles.featuredExtensionMetadata}>
                         <div className={styles.featuredExtensionRequirement}>
@@ -244,6 +254,16 @@ class LibraryItemComponent extends React.PureComponent {
                     />
                 ) : null}
 
+                {this.props.loaded ? (
+                    <div className={styles.loadedBadge}>
+                        <FormattedMessage
+                            defaultMessage="Loaded"
+                            description="Badge text for an extension that is already loaded"
+                            id="tw.extensionLibrary.loaded"
+                        />
+                    </div>
+                ) : null}
+
                 {favorite}
             </Box>
         );
@@ -291,11 +311,13 @@ LibraryItemComponent.propTypes = {
     onMouseLeave: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
-    showPlayButton: PropTypes.bool
+    showPlayButton: PropTypes.bool,
+    loaded: PropTypes.bool
 };
 
 LibraryItemComponent.defaultProps = {
     disabled: false,
+    loaded: false,
     showPlayButton: false
 };
 

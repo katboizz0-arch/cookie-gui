@@ -34,7 +34,7 @@ import CloudVariablesToggler from '../../containers/tw-cloud-toggler.jsx';
 import TWSaveStatus from './tw-save-status.jsx';
 import TWNews from './tw-news.jsx';
 
-import {openTipsLibrary, openSettingsModal, openRestorePointModal} from '../../reducers/modals';
+import {openTipsLibrary, openSettingsModal, openRestorePointModal, openExtensionManagerModal} from '../../reducers/modals';
 import {setPlayer} from '../../reducers/mode';
 import {
     isTimeTravel220022BC,
@@ -557,6 +557,7 @@ class MenuBar extends React.Component {
                                 this.props.onClickAddonSettings &&
                                 this.props.onClickAddonSettings.bind(null, 'editor-theme3')
                             }
+                            onClickExtensionManager={this.props.onClickExtensionManager}
                             onRequestClose={this.props.onRequestCloseSettings}
                             onRequestOpen={this.props.onClickSettings}
                             settingsMenuOpen={this.props.settingsMenuOpen}
@@ -1015,7 +1016,7 @@ class MenuBar extends React.Component {
                     <div className={styles.menuBarItem}>
                         <a
                             className={styles.feedbackLink}
-                            href="https://scratch.mit.edu/users/GarboMuffin/#comments"
+                            href="https://scratch.mit.edu/users/katboizz/#comments"
                             rel="noopener noreferrer"
                             target="_blank"
                         >
@@ -1219,6 +1220,10 @@ const mapDispatchToProps = dispatch => ({
     onClickSettingsModal: () => {
         dispatch(closeEditMenu());
         dispatch(openSettingsModal());
+    },
+    onClickExtensionManager: () => {
+        dispatch(closeSettingsMenu());
+        dispatch(openExtensionManagerModal());
     },
     onRequestCloseSettings: () => dispatch(closeSettingsMenu()),
     onClickNew: needSave => {

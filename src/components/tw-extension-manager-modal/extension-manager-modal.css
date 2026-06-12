@@ -1,0 +1,90 @@
+@import "../../css/colors.css";
+
+.modal-content {
+    max-width: 600px;
+    margin-top: 50px;
+}
+
+.body {
+    background: $ui-white;
+    padding: 1.5rem 2.25rem;
+}
+
+.controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+.extensionList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.extensionItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.75rem;
+    border: 1px solid $ui-black-transparent;
+    border-radius: 0.5rem;
+    background: $ui-secondary;
+}
+
+.extensionDetails {
+    flex: 1;
+    min-width: 0;
+}
+
+.extensionName {
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.extensionMeta,
+.extensionUrl {
+    font-size: 0.85rem;
+    color: $text-primary-transparent;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.extensionUrl {
+    margin-top: 0.25rem;
+}
+
+.extensionActions {
+    display: flex;
+    align-items: center;
+}
+
+.buttonRow {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}
+
+.loadButton {
+    font: inherit;
+    color: inherit;
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid $ui-black-transparent;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: white;
+    background: $looks-secondary;
+    cursor: pointer;
+}
+
+.loadButton:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}

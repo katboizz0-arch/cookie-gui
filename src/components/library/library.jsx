@@ -298,6 +298,7 @@ class LibraryComponent extends React.Component {
                         }
                     </div>
                 )}
+                {this.props.topSection}
                 <div
                     className={classNames(styles.libraryScrollGrid, {
                         [styles.withFilterBar]: this.props.filterable || this.props.tags
@@ -396,13 +397,15 @@ LibraryComponent.propTypes = {
     showPlayButton: PropTypes.bool,
     tags: PropTypes.arrayOf(PropTypes.shape(TagButton.propTypes)),
     title: PropTypes.string.isRequired,
+    topSection: PropTypes.node,
     removedTrademarks: PropTypes.bool
 };
 
 LibraryComponent.defaultProps = {
     filterable: true,
     persistableKey: 'name',
-    showPlayButton: false
+    showPlayButton: false,
+    topSection: null
 };
 
 export default injectIntl(LibraryComponent);

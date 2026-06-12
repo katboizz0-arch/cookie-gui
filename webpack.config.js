@@ -239,10 +239,38 @@ module.exports = [
                         from: 'extensions/**',
                         to: 'static',
                         context: 'src/examples'
+                    },
+                    {
+                        from: 'scratch-vm/src/extensions/visualler/index.js',
+                        to: 'static/visualler/index.js'
                     }
                 ]
-            })
-        ])
+            }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: 'scratch-vm/src/extensions/fakewindow/index.js',
+                        to: 'static/fakewindow/index.js'
+                    }
+                ]
+            }),
+            new CopyWebpackPlugin({
+                patterns: [
+                   {
+                        from: 'scratch-vm/src/extensions/Extra-effects/index.js',
+                        to: 'static/Extra-effects/index.js'
+                   }
+                ]
+            }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: 'scratch-vm/src/extensions/Chart-visual/index.js',
+                        to: 'static/Chart-visual/index.js'
+                    }
+                ]
+            }),   
+        ]),
     })
 ].concat(
     process.env.NODE_ENV === 'production' || process.env.BUILD_MODE === 'dist' ? (

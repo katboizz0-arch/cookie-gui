@@ -13,6 +13,7 @@ import extensionLibraryContent, {
 import extensionTags from '../lib/libraries/tw-extension-tags';
 
 import LibraryComponent from '../components/library/library.jsx';
+import styles from '../components/library/library.css';
 import extensionIcon from '../components/action-menu/icon--sprite.svg';
 
 const messages = defineMessages({
@@ -88,13 +89,122 @@ class ExtensionLibrary extends React.PureComponent {
     constructor (props) {
         super(props);
         bindAll(this, [
-            'handleItemSelect'
+            'handleItemSelect',
+            'handleRefreshExtension',
+            'renderExtensionManagerSection'
         ]);
         this.state = {
             gallery: cachedGallery,
             galleryError: null,
             galleryTimedOut: false
         };
+    }
+
+    getLoadedExtensions () {
+        const loadedURLs = this.props.vm.extensionManager.getExtensionURLs();
+        if (!loadedURLs || !loadedURLs.length) {
+            return [];
+        }
+        return loadedURLs.map(item => {
+            const extension = extensionLibraryContent.find(ext => (
+                ext.extensionId === item.extensionId || ext.extensionURL === item.extensionURL
+            ));
+            const displayName = extension ? extension.name : item.extensionId || item.extensionURL;
+            return {
+                ...item,
+                displayName,
+                docsURI: extension ? extension.docsURI : null
+            };
+        });
+    }
+
+    handleRefreshExtension (item) {
+        if (!item || !item.extensionId) {
+            return;
+        }
+        this.props.vm.extensionManager.refreshBlocks(item.extensionId)
+            .catch(err => {
+                log.error(err);
+                // eslint-disable-next-line no-alert
+                alert(err);
+            });
+    }
+
+    renderExtensionManagerSection () {
+        const loadedExtensions = this.getLoadedExtensions();
+        if (!loadedExtensions.length) {
+            return null;
+        }
+
+        return (
+            <div className={styles.loadedExtensionsPanel}>
+                <div className={styles.loadedExtensionsHeader}>
+                    <div className={styles.loadedExtensionsTitle}>
+                        {this.props.intl.formatMessage({
+                            defaultMessage: 'Loaded extensions',
+                            description: 'Heading for loaded extension manager section',
+                            id: 'gui.extensionLibrary.loadedExtensionsTitle'
+                        })}
+                    </div>
+                    <div className={styles.loadedExtensionsSubtitle}>
+                        {this.props.intl.formatMessage({
+                            defaultMessage: 'Manage currently loaded extensions and refresh block definitions.',
+                            description: 'Subtitle text for loaded extension manager section',
+                            id: 'gui.extensionLibrary.loadedExtensionsSubtitle'
+                        })}
+                    </div>
+                </div>
+                <div className={styles.loadedExtensionsList}>
+                    {loadedExtensions.map(item => (
+                        <div
+                            className={styles.loadedExtensionItem}
+                            key={item.extensionId || item.extensionURL}
+                        >
+                            <div className={styles.loadedExtensionInfo}>
+                                <div className={styles.loadedExtensionName}>
+                                    {item.displayName}
+                                </div>
+                                <div className={styles.loadedExtensionMeta}>
+                                    {item.extensionId}
+                                    {item.extensionURL && item.extensionURL !== item.extensionId ? (
+                                        <span className={styles.loadedExtensionURL}>
+                                            {' • '}{item.extensionURL}
+                                        </span>
+                                    ) : null}
+                                </div>
+                            </div>
+                            <div className={styles.loadedExtensionActions}>
+                                <button
+                                    type="button"
+                                    className={styles.loadedExtensionButton}
+                                    onClick={() => this.handleRefreshExtension(item)}
+                                >
+                                    {this.props.intl.formatMessage({
+                                        defaultMessage: 'Refresh',
+                                        description: 'Button text to refresh an extension',
+                                        id: 'gui.extensionLibrary.refreshButton'
+                                    })}
+                                </button>
+                                {item.docsURI && (
+                                    <a
+                                        href={item.docsURI}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className={styles.loadedExtensionButton}
+                                    >
+                                        {this.props.intl.formatMessage({
+                                            defaultMessage: 'Docs',
+                                            description: 'Button text to open extension docs',
+                                            id: 'gui.extensionLibrary.docsButton'
+                                        })}
+                                    </a>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
     }
     componentDidMount () {
         if (!this.state.gallery) {
@@ -159,7 +269,13 @@ class ExtensionLibrary extends React.PureComponent {
     render () {
         let library = null;
         if (this.state.gallery || this.state.galleryError || this.state.galleryTimedOut) {
-            library = extensionLibraryContent.map(toLibraryItem);
+            library = extensionLibraryContent.map(extension => {
+                const item = toLibraryItem(extension);
+                return {
+                    ...item,
+                    loaded: item.extensionId && this.props.vm.extensionManager.isExtensionLoaded(item.extensionId)
+                };
+            });
             library.push('---');
             if (this.state.gallery) {
                 library.push(toLibraryItem(galleryMore));
@@ -185,6 +301,7 @@ class ExtensionLibrary extends React.PureComponent {
                 id="extensionLibrary"
                 tags={extensionTags}
                 title={this.props.intl.formatMessage(messages.extensionTitle)}
+                topSection={this.renderExtensionManagerSection()}
                 visible={this.props.visible}
                 onItemSelected={this.handleItemSelect}
                 onRequestClose={this.props.onRequestClose}

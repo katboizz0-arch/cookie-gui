@@ -116,6 +116,7 @@ class Blocks extends React.Component {
             'handleMonitorsUpdate',
             'handleExtensionAdded',
             'handleBlocksInfoUpdate',
+            'handleBlocksInfoRemove',
             'onTargetsUpdate',
             'onVisualReport',
             'onWorkspaceUpdate',
@@ -367,6 +368,7 @@ class Blocks extends React.Component {
         this.props.vm.addListener('MONITORS_UPDATE', this.handleMonitorsUpdate);
         this.props.vm.addListener('EXTENSION_ADDED', this.handleExtensionAdded);
         this.props.vm.addListener('BLOCKSINFO_UPDATE', this.handleBlocksInfoUpdate);
+        this.props.vm.addListener('BLOCKSINFO_REMOVE', this.handleBlocksInfoRemove);
         this.props.vm.addListener('PERIPHERAL_CONNECTED', this.handleStatusButtonUpdate);
         this.props.vm.addListener('PERIPHERAL_DISCONNECTED', this.handleStatusButtonUpdate);
     }
@@ -381,6 +383,7 @@ class Blocks extends React.Component {
         this.props.vm.removeListener('MONITORS_UPDATE', this.handleMonitorsUpdate);
         this.props.vm.removeListener('EXTENSION_ADDED', this.handleExtensionAdded);
         this.props.vm.removeListener('BLOCKSINFO_UPDATE', this.handleBlocksInfoUpdate);
+        this.props.vm.removeListener('BLOCKSINFO_REMOVE', this.handleBlocksInfoRemove);
         this.props.vm.removeListener('PERIPHERAL_CONNECTED', this.handleStatusButtonUpdate);
         this.props.vm.removeListener('PERIPHERAL_DISCONNECTED', this.handleStatusButtonUpdate);
     }
@@ -575,6 +578,30 @@ class Blocks extends React.Component {
     handleBlocksInfoUpdate (categoryInfo) {
         // @todo Later we should replace this to avoid all the warnings from redefining blocks.
         this.handleExtensionAdded(categoryInfo);
+    }
+    handleBlocksInfoRemove (categoryInfo) {
+        if (!this.workspace || !categoryInfo || !categoryInfo.id) {
+            return;
+        }
+
+        const extensionId = categoryInfo.id;
+        const allBlocks = typeof this.workspace.getAllBlocks === 'function' ?
+            this.workspace.getAllBlocks(false) :
+            [];
+
+        for (const block of allBlocks) {
+            if (block && block.type && block.type.startsWith(`${extensionId}_`)) {
+                if (typeof block.dispose === 'function') {
+                    block.dispose(true);
+                }
+            }
+        }
+
+        const toolboxXML = this.getToolboxXML();
+        if (toolboxXML) {
+            this.props.updateToolboxState(toolboxXML);
+        }
+        this.requestToolboxUpdate();
     }
     handleCategorySelected (categoryId) {
         const extension = extensionData.find(ext => ext.extensionId === categoryId);

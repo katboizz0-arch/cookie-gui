@@ -60,9 +60,13 @@ const Credits = () => (
             </h1>
         </header>
         <section>
-            <p>
-                The {APP_NAME} project is made possible by the work of many volunteers.
-            </p>
+            <h1>{APP_NAME}</h1>
+            <h3>The {APP_NAME} project is hosted and created by the main programmer by <a href="https://scratch.mit.edu/users/katboizz/">katboizz</a> </h3>
+            <UserList users={UserData.host} />
+        </section>
+        <section>
+            <h2>Developers</h2>
+            <UserList users={UserData.developers} />
         </section>
         {APP_NAME !== 'TurboWarp' && (
             // Be kind and considerate. Don't remove this :)

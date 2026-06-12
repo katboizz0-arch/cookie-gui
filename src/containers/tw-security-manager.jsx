@@ -23,15 +23,32 @@ const manuallyTrustExtension = url => {
  * @param {string} url URL as a string.
  * @returns {boolean} True if the extension can is trusted
  */
-const isTrustedExtension = url => (
-    // Always trust our official extension repostiory.
-    url.startsWith('https://extensions.turbowarp.org/') ||
-
-    // For development.
-    url.startsWith('http://localhost:8000/') ||
-
-    extensionsTrustedByUser.has(url)
+const isLocalhostHost = host => (
+    host === 'localhost' ||
+    host === '127.0.0.1' ||
+    host === '[::1]'
 );
+
+const isTrustedExtension = url => {
+    try {
+        const parsed = new URL(url);
+        if (isLocalhostHost(parsed.hostname)) {
+            return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+        }
+    } catch (e) {
+        // Ignore invalid URLs here; falls back to other checks below.
+    }
+
+    return (
+        // Always trust our official extension repository.
+        url.startsWith('https://extensions.turbowarp.org/') ||
+
+        // For development.
+        url.startsWith('http://localhost:8000/') ||
+
+        extensionsTrustedByUser.has(url)
+    );
+};
 
 /**
  * Set of fetch resource hosts that were manually trusted by the user.

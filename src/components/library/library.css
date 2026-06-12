@@ -68,3 +68,96 @@
     align-items: center;
     justify-content: center;
 }
+
+.loaded-extensions-panel {
+    margin: 0.75rem 0 0.75rem 0;
+    padding: 1rem;
+    background: $ui-primary;
+    border: 1px solid $ui-black-transparent;
+    border-radius: 0.75rem;
+}
+
+.loaded-extensions-header {
+    margin-bottom: 0.75rem;
+}
+
+.loaded-extensions-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $text-primary;
+}
+
+.loaded-extensions-subtitle {
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    color: $text-primary-transparent;
+}
+
+.loaded-extensions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.loaded-extension-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: $ui-secondary;
+    border-radius: 0.75rem;
+}
+
+.loaded-extension-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.loaded-extension-name {
+    font-weight: 600;
+    color: $text-primary;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.loaded-extension-meta {
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    color: $text-primary-transparent;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.loaded-extension-url {
+    display: inline-block;
+    max-width: 30rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.loaded-extension-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.loaded-extension-button {
+    border: 1px solid $ui-black-transparent;
+    background: $ui-primary;
+    color: $text-primary;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s ease;
+    text-decoration: none;
+}
+
+.loaded-extension-button:hover {
+    background: $ui-secondary;
+}

@@ -7,7 +7,8 @@ import {connect} from 'react-redux';
 import check from './check.svg';
 import dropdownCaret from './dropdown-caret.svg';
 import {MenuItem, Submenu} from '../menu/menu.jsx';
-import {ACCENT_BLUE, ACCENT_MAP, ACCENT_PURPLE, ACCENT_RED, ACCENT_RAINBOW, Theme} from '../../lib/themes/index.js';
+import {ACCENT_BROWN, ACCENT_BLUE, ACCENT_MAP, ACCENT_PURPLE, ACCENT_RED, ACCENT_RAINBOW, Theme, ACCENT_CUSTOM} from '../../lib/themes/index.js';
+import {openCustomAccentModal} from '../../reducers/modals';
 import {openAccentMenu, accentMenuOpen, closeSettingsMenu} from '../../reducers/menus.js';
 import {setTheme} from '../../reducers/theme.js';
 import {persistTheme} from '../../lib/themes/themePersistance.js';
@@ -15,6 +16,11 @@ import rainbowIcon from './tw-accent-rainbow.svg';
 import styles from './settings-menu.css';
 
 const options = defineMessages({
+    [ACCENT_BROWN]: {
+        defaultMessage: 'Brown',
+        description: 'Name of the brown color scheme.',
+        id: 'tw.accent.brown'
+    },
     [ACCENT_RED]: {
         defaultMessage: 'Red',
         description: 'Name of the red color scheme, used by TurboWarp by default.',
@@ -34,6 +40,12 @@ const options = defineMessages({
         defaultMessage: 'Rainbow',
         description: 'Name of color scheme that uses a rainbow.',
         id: 'tw.accent.rainbow'
+    }
+    ,
+    [ACCENT_CUSTOM]: {
+        defaultMessage: 'Custom',
+        description: 'Choose a custom accent color',
+        id: 'tw.accent.custom'
     }
 });
 
@@ -93,6 +105,7 @@ const AccentThemeMenu = ({
     isRtl,
     onChangeTheme,
     onOpen,
+    onOpenCustomAccentModal,
     theme
 }) => (
     <MenuItem expanded={isOpen}>
@@ -124,6 +137,20 @@ const AccentThemeMenu = ({
                     onClick={() => onChangeTheme(theme.set('accent', item))}
                 />
             ))}
+            {/* Custom color picker */}
+            <MenuItem>
+                <div className={styles.option}>
+                    <div className={styles.accentIconOuter} style={{marginRight: 8}} />
+                    <FormattedMessage {...options[ACCENT_CUSTOM]} />
+                    <button
+                        className={styles.loadButton}
+                        style={{marginLeft: 12}}
+                        onClick={onOpenCustomAccentModal}
+                    >
+                        <FormattedMessage defaultMessage="Open" id="tw.customAccent.open" />
+                    </button>
+                </div>
+            </MenuItem>
         </Submenu>
     </MenuItem>
 );
@@ -133,6 +160,7 @@ AccentThemeMenu.propTypes = {
     isRtl: PropTypes.bool,
     onChangeTheme: PropTypes.func,
     onOpen: PropTypes.func,
+    onOpenCustomAccentModal: PropTypes.func,
     theme: PropTypes.instanceOf(Theme)
 };
 
@@ -149,6 +177,8 @@ const mapDispatchToProps = dispatch => ({
         persistTheme(theme);
     },
     onOpen: () => dispatch(openAccentMenu())
+    ,
+    onOpenCustomAccentModal: () => dispatch(openCustomAccentModal())
 });
 
 export default connect(

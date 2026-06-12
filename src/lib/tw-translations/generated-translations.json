@@ -4646,6 +4646,11 @@
         "tw.viewOnScratch": "Переглянути проєкт на Scratch"
     },
     "vi": {
+        "tw.accent.blue": "Blue",
+        "tw.accent.purple": "Purple",
+        "tw.accent.rainbow": "Rainbow",
+        "tw.accent.red": "Red",
+        "tw.accent.brown": "Brown",
         "tw.alerts.creatingRestorePoint": "Đang tạo điiểm khôi phục",
         "tw.alerts.lostPeripheralConnection": "Mất kết nối từ {extensionName}",
         "tw.alerts.savedToDisk": "Đã lưu vời máy tính bạn.",

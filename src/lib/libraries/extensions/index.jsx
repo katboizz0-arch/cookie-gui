@@ -54,6 +54,16 @@ import customExtensionIcon from './custom/custom.svg';
 import returnIcon from './custom/return.svg';
 import galleryIcon from './gallery/gallery.svg';
 import {APP_NAME} from '../../brand';
+import ChartVisualIcon from './ChartVisual/ChartVisualIcon.png';
+import ExtraEffectsIcon from './ExtraEffects/ExtraEffectsIcon.png';
+import FakeWindowIcon from './FakeWindow/FakeWindowIcon.png';
+import VisualizerIcon from './Visualizer/VisualizerIcon.png';
+
+const ROOT = process.env.ROOT || '';
+const ROOT_PATH = ROOT.length ? (ROOT.startsWith('/') ? ROOT : `/${ROOT}`) : '/';
+const LOCAL_EXTENSION_ROOT = typeof window !== 'undefined' && window.location.origin !== 'null'
+    ? `${window.location.origin}${ROOT_PATH}`
+    : ROOT_PATH;
 
 export default [
     {
@@ -117,6 +127,43 @@ export default [
             />
         ),
         tags: ['scratch'],
+        featured: true
+    },
+    //cookie IDE extensions
+    {
+        name: 'Visualizer',
+        extensionId: 'Visualizer',
+        extensionURL: `${LOCAL_EXTENSION_ROOT}static/visualler/index.js`,
+        iconURL: VisualizerIcon,
+        description: 'Visualize audio waveform and spectrum in your project.',
+        tags: ['ci'],
+        featured: true
+    },
+    {
+        name: 'fake windows',
+        extensionId: 'fakewindows',
+        extensionURL: `${LOCAL_EXTENSION_ROOT}static/fakewindow/index.js`,
+        iconURL: FakeWindowIcon,
+        description: 'Create a draggable fake window on the stage.',
+        tags: ['ci'],
+        featured: true
+    },
+    {
+        name: 'Extra effects',
+        extensionId: 'extraeffects',
+        extensionURL: `${LOCAL_EXTENSION_ROOT}static/Extra-effects/index.js`,
+        iconURL: ExtraEffectsIcon,
+        description: 'Apply extra visual effects to your sprites. thanks to ObviousAlexC for the original implementation.',
+        tags: ['ci'],
+        featured: true
+    },
+    {
+        name: 'Chart visual',
+        extensionId: 'chartvisual',
+        extensionURL: `${LOCAL_EXTENSION_ROOT}static/Chart-visual/index.js`,
+        iconURL: ChartVisualIcon,
+        description: 'Visualize data in charts and graphs like Excel.',
+        tags: ['ci'],
         featured: true
     },
     {
@@ -403,14 +450,14 @@ export default [
             />
         ),
         incompatibleWithScratch: true,
-        tags: ['tw'],
+        tags: ['tw','ci'],
         featured: true
     },
     {
         name: (
             <FormattedMessage
-                defaultMessage="Custom Extension"
-                description="Name of library item to load a custom extension from a remote source"
+                defaultMessage="Load Local Extension"
+                description="Name of library item to load a custom extension from a file or URL"
                 id="tw.customExtension.name"
             />
         ),
@@ -418,15 +465,15 @@ export default [
         iconURL: customExtensionIcon,
         description: (
             <FormattedMessage
-                defaultMessage="Load custom extensions from URLs, files, or JavaScript source code."
-                description="Description of library item to load a custom extension from a custom source"
+                defaultMessage="Load an extension from a URL, local file, or JavaScript source code."
+                description="Description of the local/custom extension loader item"
                 id="tw.customExtension.description"
             />
         ),
-        tags: ['tw'],
+        tags: ['tw','ci'],
         featured: true
         // Not marked as incompatible with Scratch so that clicking on it doesn't show a prompt
-    }
+    },
 ];
 
 export const galleryLoading = {
@@ -451,7 +498,7 @@ export const galleryLoading = {
             id="tw.extensionGallery.loading"
         />
     ),
-    tags: ['tw'],
+    tags: ['tw','ci'],
     featured: true
 };
 
@@ -477,7 +524,7 @@ export const galleryMore = {
             id="tw.extensionGallery.more"
         />
     ),
-    tags: ['tw'],
+    tags: ['tw','ci'],
     featured: true
 };
 
@@ -503,6 +550,6 @@ export const galleryError = {
             id="tw.extensionGallery.error"
         />
     ),
-    tags: ['tw'],
+    tags: ['tw','ci'],
     featured: true
 };

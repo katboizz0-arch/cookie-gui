@@ -27,6 +27,16 @@ const messages = defineMessages({
         defaultMessage: 'Click for help',
         description: 'Hover text of help icon in settings',
         id: 'tw.settingsModal.help'
+    },
+    openExtensionManager: {
+        defaultMessage: 'Open Extension Manager',
+        description: 'Button label to open the extension manager from settings',
+        id: 'tw.settingsModal.openExtensionManager'
+    },
+    extensionManagerHelp: {
+        defaultMessage: 'Open the extension manager to load and refresh extensions without leaving the settings menu.',
+        description: 'Help text for the extension manager button in settings',
+        id: 'tw.settingsModal.extensionManagerHelp'
     }
 });
 
@@ -394,6 +404,30 @@ CustomStageSize.propTypes = {
     onStageHeightChange: PropTypes.func
 };
 
+const ExtensionManagerButton = ({onOpenExtensionManager}) => (
+    <div className={styles.setting}>
+        <div>
+            <button
+                onClick={onOpenExtensionManager}
+                className={styles.button}
+            >
+                <FormattedMessage
+                    {...messages.openExtensionManager}
+                />
+            </button>
+            <p>
+                <FormattedMessage
+                    {...messages.extensionManagerHelp}
+                />
+            </p>
+        </div>
+    </div>
+);
+
+ExtensionManagerButton.propTypes = {
+    onOpenExtensionManager: PropTypes.func.isRequired
+};
+
 const StoreProjectOptions = ({onStoreProjectOptions}) => (
     <div className={styles.setting}>
         <div>
@@ -447,6 +481,9 @@ const SettingsModalComponent = props => (
                     id="tw.settingsModal.featured"
                 />
             </Header>
+            <ExtensionManagerButton
+                onOpenExtensionManager={props.onOpenExtensionManager}
+            />
             <CustomFPS
                 framerate={props.framerate}
                 onChange={props.onFramerateChange}
@@ -528,7 +565,8 @@ SettingsModalComponent.propTypes = {
     warpTimer: PropTypes.bool,
     onWarpTimerChange: PropTypes.func,
     disableCompiler: PropTypes.bool,
-    onDisableCompilerChange: PropTypes.func
+    onDisableCompilerChange: PropTypes.func,
+    onOpenExtensionManager: PropTypes.func
 };
 
 export default injectIntl(SettingsModalComponent);

@@ -240,3 +240,17 @@
 .library-item:hover .favorite-container {
     display: block;
 }
+.loadedBadge,
+.loadedBadgeInline {
+    margin-top: 0.5rem;
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    background-color: rgba(0, 200, 100, 0.15);
+    color: #067a34;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+.loadedBadgeInline {
+    margin-top: 0.75rem;
+}

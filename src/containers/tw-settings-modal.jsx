@@ -3,7 +3,7 @@ import React from 'react';
 import {defineMessages, injectIntl, intlShape} from 'react-intl';
 import bindAll from 'lodash.bindall';
 import {connect} from 'react-redux';
-import {closeSettingsModal} from '../reducers/modals';
+import {closeSettingsModal, openExtensionLibrary} from '../reducers/modals';
 import SettingsModalComponent from '../components/tw-settings-modal/settings-modal.jsx';
 import {defaultStageSize} from '../reducers/custom-stage-size';
 
@@ -164,7 +164,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onClose: () => dispatch(closeSettingsModal())
+    onClose: () => dispatch(closeSettingsModal()),
+    onOpenExtensionManager: () => {
+        dispatch(closeSettingsModal());
+        dispatch(openExtensionLibrary());
+    }
 });
 
 export default injectIntl(connect(

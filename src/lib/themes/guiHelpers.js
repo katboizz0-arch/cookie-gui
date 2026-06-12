@@ -1,4 +1,4 @@
-import {Theme} from '.';
+import {Theme, ACCENT_CUSTOM} from '.';
 import AddonHooks from '../../addons/hooks';
 import './global-styles.css';
 
@@ -72,6 +72,21 @@ const applyGuiColors = theme => {
         primary: guiColors['looks-secondary']
     };
     AddonHooks.recolorCallbacks.forEach(i => i());
+
+    // If a custom accent is selected, apply the persisted custom color variable
+    try {
+        if (theme.accent === ACCENT_CUSTOM) {
+            const custom = localStorage.getItem('tw:customAccent');
+            if (custom) {
+                const docEl = document.documentElement;
+                docEl.style.setProperty('--tw-custom-accent', custom);
+                // set fallback derived vars to simple transparencies based on the color
+                // leave complex derivation to future improvements
+            }
+        }
+    } catch (e) {
+        // ignore storage errors
+    }
 };
 
 export {

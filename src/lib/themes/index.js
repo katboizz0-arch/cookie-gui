@@ -1,9 +1,11 @@
 import defaultsDeep from 'lodash.defaultsdeep';
 
+import * as accentBrown from './accent/brown';
 import * as accentPurple from './accent/purple';
 import * as accentBlue from './accent/blue';
 import * as accentRed from './accent/red';
 import * as accentRainbow from './accent/rainbow';
+import * as accentCustom from './accent/custom';
 
 import * as guiLight from './gui/light';
 import * as guiDark from './gui/dark';
@@ -12,17 +14,22 @@ import * as blocksThree from './blocks/three';
 import * as blocksHighContrast from './blocks/high-contrast';
 import * as blocksDark from './blocks/dark';
 
+const ACCENT_BROWN = 'brown';
 const ACCENT_PURPLE = 'purple';
 const ACCENT_BLUE = 'blue';
 const ACCENT_RED = 'red';
 const ACCENT_RAINBOW = 'rainbow';
+const ACCENT_CUSTOM = 'custom';
 const ACCENT_MAP = {
+    [ACCENT_BROWN]: accentBrown,
     [ACCENT_PURPLE]: accentPurple,
     [ACCENT_BLUE]: accentBlue,
     [ACCENT_RED]: accentRed,
     [ACCENT_RAINBOW]: accentRainbow
+    ,
+    [ACCENT_CUSTOM]: accentCustom
 };
-const ACCENT_DEFAULT = ACCENT_RED;
+const ACCENT_DEFAULT = ACCENT_BROWN;
 
 const GUI_LIGHT = 'light';
 const GUI_DARK = 'dark';
@@ -118,7 +125,7 @@ class Theme {
             {},
             ACCENT_MAP[this.accent].blockColors,
             GUI_MAP[this.gui].blockColors,
-            BLOCKS_MAP[this.blocks].colors
+            BLOCKS_MAP[this.blocks].colors,
         );
     }
 
@@ -146,10 +153,12 @@ export {
     Theme,
     defaultBlockColors,
 
+    ACCENT_BROWN,
     ACCENT_RED,
     ACCENT_PURPLE,
     ACCENT_BLUE,
     ACCENT_RAINBOW,
+    ACCENT_CUSTOM,
     ACCENT_MAP,
 
     GUI_LIGHT,
